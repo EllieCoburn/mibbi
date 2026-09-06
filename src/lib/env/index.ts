@@ -78,3 +78,16 @@ export function resetEnvCacheForTests(): void {
   cachedPublic = undefined;
   cachedServer = undefined;
 }
+
+/**
+ * True when the public Supabase settings are present and valid. The site is
+ * designed to render its public pages even when this is false, so a fresh
+ * deployment shows a clear setup notice instead of crashing.
+ */
+export function isSupabaseConfigured(): boolean {
+  return publicSchema.safeParse({
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  }).success;
+}

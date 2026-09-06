@@ -2,6 +2,7 @@ import "server-only";
 
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/env";
 import type { Tables } from "@/types/supabase";
 
 export type Profile = Tables<"profiles">;
@@ -19,6 +20,7 @@ export interface CurrentUser {
  * Wrapped in React `cache` so layouts and pages in one request share a call.
  */
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+  if (!isSupabaseConfigured()) return null;
   const supabase = await createClient();
   const {
     data: { user },
