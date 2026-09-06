@@ -4,7 +4,9 @@ import { WorldMap } from "@/components/atlas/world-map";
 import { AtlasTimeControl } from "@/components/atlas/time-control";
 import { ToyLink } from "@/components/ui/toy-button";
 import { getEntriesAroundYear, getRegions, getTimelineEntries } from "@/lib/data/timeline";
-import { PRESENT_YEAR, formatYear, formatWhen, viewportToParams, focusViewport } from "@/lib/timeline/time";
+import { PRESENT_YEAR, formatYear, viewportToParams, focusViewport } from "@/lib/timeline/time";
+import { formatDate } from "@/lib/timeline/format";
+import { SimultaneityStrip } from "@/components/atlas/simultaneity-strip";
 import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = { title: "Mibbi Atlas", description: "Pick a moment and see the whole world at once." };
@@ -55,6 +57,7 @@ export default async function AtlasPage({ searchParams }: PageProps<"/atlas">) {
         <div className="flex flex-col gap-4">
           <AtlasTimeControl year={year} region={regionSlug} />
           <WorldMap pins={pins} caption={`Around ${formatYear(year)} · ${around.length} things happening`} />
+          <SimultaneityStrip year={year} entries={around} regions={regions} />
         </div>
 
         <aside className="chunky bg-paper flex max-h-[70vh] flex-col overflow-hidden rounded-3xl">
@@ -76,7 +79,7 @@ export default async function AtlasPage({ searchParams }: PageProps<"/atlas">) {
                       <span className="border-chocolate size-3 shrink-0 rounded-full border-2" style={{ backgroundColor: e.color_hex ?? "#b9c9db" }} />
                       <span className="min-w-0 flex-1">
                         <span className="font-display text-chocolate block truncate text-sm font-bold">{e.name}</span>
-                        <span className="text-ink-soft block text-xs">{formatWhen(e.start_year, e.end_year, e.is_ongoing)}</span>
+                        <span className="text-ink-soft block text-xs">{formatDate(e)}</span>
                       </span>
                     </Link>
                   </li>
@@ -110,7 +113,7 @@ export default async function AtlasPage({ searchParams }: PageProps<"/atlas">) {
                                 />
                                 <span className="min-w-0 flex-1">
                                   <span className="font-display text-chocolate block truncate text-sm font-bold">{e.name}</span>
-                                  <span className="text-ink-soft block text-xs">{formatWhen(e.start_year, e.end_year, e.is_ongoing)}</span>
+                                  <span className="text-ink-soft block text-xs">{formatDate(e)}</span>
                                 </span>
                               </Link>
                             </li>

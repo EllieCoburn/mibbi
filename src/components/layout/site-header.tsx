@@ -6,11 +6,12 @@ import { getCurrentUser } from "@/lib/data/profile";
 import { getActiveCharacters } from "@/lib/data/characters";
 
 const NAV = [
-  { href: routes.timeline, label: "Timeline" },
-  { href: routes.atlas, label: "Atlas" },
-  { href: routes.adventures, label: "Adventures" },
-  { href: routes.characters, label: "Mibbis" },
-  { href: routes.parents, label: "Parents" },
+  { href: routes.timeline, label: "Timeline", primary: true },
+  { href: routes.atlas, label: "Atlas", primary: true },
+  { href: routes.adventures, label: "Adventures", primary: true },
+  { href: routes.museum, label: "Museum", primary: true },
+  { href: routes.characters, label: "Mibbis", primary: false },
+  { href: routes.parents, label: "Parents", primary: false },
 ];
 
 /**

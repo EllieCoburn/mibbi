@@ -32,6 +32,19 @@ export const getRegions = cache(async (): Promise<Region[]> => {
   return data ?? [];
 });
 
+export type EntryRelation = Tables<"entry_relations">;
+
+export const getRelations = cache(async (): Promise<EntryRelation[]> => {
+  if (!isSupabaseConfigured()) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("entry_relations").select("*");
+  if (error) {
+    console.error("Failed to load relations:", error.message);
+    return [];
+  }
+  return data ?? [];
+});
+
 export async function getEntryBySlug(slug: string): Promise<TimelineEntry | null> {
   const entries = await getTimelineEntries();
   return entries.find((e) => e.slug === slug) ?? null;

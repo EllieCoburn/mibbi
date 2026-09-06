@@ -17,10 +17,10 @@ const TRAVELLERS: Array<{ left: string; bottom: string; size: string; mobile: bo
   { left: "36%", bottom: "8%", size: "clamp(72px, 9vw, 120px)", mobile: true, motion: "bob" },
   { left: "58%", bottom: "10%", size: "clamp(60px, 7vw, 100px)", mobile: false },
   { left: "76%", bottom: "13%", size: "clamp(64px, 8vw, 110px)", mobile: true, motion: "bob", flip: true },
-  { left: "90%", bottom: "12%", size: "clamp(56px, 7vw, 96px)", mobile: true },
+  { left: "84%", bottom: "5%", size: "clamp(56px, 7vw, 96px)", mobile: true },
 ];
 
-export function HeroJourney({ characters, signedIn }: { characters: CharacterSummary[]; signedIn: boolean }) {
+export function HeroJourney({ characters }: { characters: CharacterSummary[]; signedIn?: boolean }) {
   const cast = characters.slice(0, TRAVELLERS.length);
   const rider = characters[TRAVELLERS.length] ?? characters[1];
 
@@ -39,10 +39,10 @@ export function HeroJourney({ characters, signedIn }: { characters: CharacterSum
         <p className="bg-paper/80 font-display text-chocolate mt-3 max-w-md rounded-full px-4 py-1.5 text-sm font-semibold sm:text-base">{copy.support}</p>
         <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row">
           <ToyLink href={routes.timeline} size="xl" color="brand" className="animate-pop">
-            Start exploring
+            Explore the timeline
           </ToyLink>
-          <ToyLink href={signedIn ? routes.museum : routes.signup} size="lg" color="butter">
-            {signedIn ? "My museum" : "Enter Mibbi World"}
+          <ToyLink href="#how" size="lg" color="butter">
+            How Mibbi works
           </ToyLink>
         </div>
       </div>

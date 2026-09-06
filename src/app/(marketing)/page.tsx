@@ -4,7 +4,6 @@ import { WhatElseTeaser } from "@/components/marketing/what-else-teaser";
 import { Companions } from "@/components/marketing/companions";
 import { AdventuresTeaser } from "@/components/marketing/adventures-teaser";
 import { MuseumTeaser } from "@/components/marketing/museum-teaser";
-import { WhatIsMibbi } from "@/components/marketing/what-is-mibbi";
 import { Bulletin } from "@/components/marketing/bulletin";
 import { getActiveCharacters } from "@/lib/data/characters";
 import { getAdventures } from "@/lib/data/timeline";
@@ -25,9 +24,8 @@ export default async function HomePage() {
       <TimelineTeaser />
       <WhatElseTeaser />
       <Companions characters={characters} />
-      <AdventuresTeaser adventures={adventures} characters={characters} />
       <MuseumTeaser signedIn={signedIn} />
-      <WhatIsMibbi characters={characters} />
+      <AdventuresTeaser adventures={adventures} characters={characters} />
       <Bulletin characters={characters} />
     </>
   );

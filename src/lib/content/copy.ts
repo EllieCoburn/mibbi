@@ -2,7 +2,7 @@
 export const copy = {
   tagline: "Little friends. Big feelings.",
   headline: "Explore the story of everything.",
-  support: "From the first stars to right now, discover where everything fits.",
+  support: "Travel from the beginning of the universe to right now, and discover where everything fits.",
   whatIs:
     "Mibbi is a world where children explore the story of everything: the universe, Earth, life, people, ideas and inventions, by moving through time itself.",
   heroLine1: "Collect them in real life.",
