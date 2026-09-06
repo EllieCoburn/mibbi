@@ -80,9 +80,21 @@ export function TimelineTeaser() {
             </figure>
           ))}
         </div>
+        <ul className="mt-10 grid gap-4 sm:grid-cols-3">
+          {[
+            ["Travel", "Drag through 13.8 billion years. Pinch to zoom from galaxies to a single year."],
+            ["Discover", "Every marker opens: when, where, why it matters, and what came before and after."],
+            ["Same time", "Press “What else was happening?” and the world lines up around that moment."],
+          ].map(([t, b]) => (
+            <li key={t} className="chunky-sm bg-cream rounded-2xl px-4 py-3">
+              <p className="font-display text-chocolate text-lg font-bold">{t}</p>
+              <p className="text-ink-soft text-sm">{b}</p>
+            </li>
+          ))}
+        </ul>
         <div className="mt-8 text-center">
           <ToyLink href={routes.timeline} size="lg">
-            Open the timeline
+            Explore the timeline
           </ToyLink>
         </div>
       </div>

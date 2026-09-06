@@ -5,7 +5,7 @@ do $$
 declare v_count int; v_bad int; v_orphans int;
 begin
   select count(*) into v_count from public.timeline_entries where status = 'active';
-  assert v_count >= 120, 'seeded at least 120 entries, got ' || v_count;
+  assert v_count >= 350, 'seeded at least 350 entries, got ' || v_count;
 
   select count(*) into v_bad from public.timeline_entries where end_year is not null and end_year < start_year;
   assert v_bad = 0, 'no entry ends before it starts';

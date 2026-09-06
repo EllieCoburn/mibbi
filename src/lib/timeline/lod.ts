@@ -37,7 +37,25 @@ export function laneFor(kind: string): number {
   return LANE_BY_KIND[kind] ?? 0;
 }
 
-export function placeMarkers(entries: TimelineEntry[], v: Viewport, width: number, minGapPx = 34): PlacedMarker[] {
+/**
+ * Default lane assignment. Moments (no end) rise above the river: lane 0
+ * for the most important, lane 1 for the rest. Spans (civilizations,
+ * lifetimes, long-lived animals) flow below it in lanes 10–13 by kind.
+ * Callers can pass their own `laneOf` (the simultaneity view uses regions).
+ */
+export function defaultLane(e: TimelineEntry): number {
+  const isSpan = e.end_year !== null || e.is_ongoing;
+  if (!isSpan) return e.importance >= 3 ? 0 : 1;
+  return 10 + laneFor(e.kind);
+}
+
+export function placeMarkers(
+  entries: TimelineEntry[],
+  v: Viewport,
+  width: number,
+  minGapPx = 34,
+  laneOf: (e: TimelineEntry) => number = defaultLane,
+): PlacedMarker[] {
   const span = spanOf(v);
   const visible = entries.filter((e) => {
     if (e.kind === "era") return false;
@@ -54,7 +72,7 @@ export function placeMarkers(entries: TimelineEntry[], v: Viewport, width: numbe
   for (const entry of visible) {
     const x = xFor(entry.start_year, v, width);
     const x2 = entry.end_year !== null ? xFor(entry.end_year, v, width) : entry.is_ongoing ? width : x;
-    const lane = laneFor(entry.kind);
+    const lane = laneOf(entry);
     const clash = placed.find((p) => p.lane === lane && x < p.x2 + minGapPx && x2 > p.x - minGapPx);
     if (clash) {
       clash.hidden += 1;

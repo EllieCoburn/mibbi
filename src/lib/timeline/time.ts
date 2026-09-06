@@ -242,3 +242,87 @@ export function viewportFromParams(from: string | null, to: string | null): View
   if (!Number.isFinite(older) || !Number.isFinite(newer) || older <= newer) return null;
   return clampViewport({ older, newer });
 }
+
+// ---------------------------------------------------------------------------
+// Scale modes and the colour of time
+// ---------------------------------------------------------------------------
+
+export type ScaleMode = "cosmic" | "earth" | "life" | "humanity" | "civilizations" | "centuries" | "decades";
+
+/** Which "layer" of the story the current zoom is showing. */
+export function scaleModeFor(span: number): ScaleMode {
+  if (span > 3e9) return "cosmic";
+  if (span > 3e8) return "earth";
+  if (span > 2e6) return "life";
+  if (span > 15_000) return "humanity";
+  if (span > 900) return "civilizations";
+  if (span > 60) return "centuries";
+  return "decades";
+}
+
+export const SCALE_LABEL: Record<ScaleMode, string> = {
+  cosmic: "Cosmic time",
+  earth: "Earth history",
+  life: "The story of life",
+  humanity: "Humanity",
+  civilizations: "Civilizations",
+  centuries: "Centuries",
+  decades: "Years",
+};
+
+/**
+ * The river of time changes colour as it flows: cosmic indigo → molten
+ * Earth → ocean → green life → dinosaur green → mammal ochre → human peach →
+ * civilization gold → modern terracotta. Stops are in years-ago (log spaced).
+ */
+export const RIVER_STOPS: Array<{ ago: number; color: string; sky: string }> = [
+  { ago: 1.38e10, color: "#4a3d6b", sky: "#2f2a4d" },
+  { ago: 4.6e9, color: "#8e8bc2", sky: "#4a3d6b" },
+  { ago: 4.4e9, color: "#c8553d", sky: "#7a3a2c" },
+  { ago: 3.8e9, color: "#7e9bc2", sky: "#5f7fa8" },
+  { ago: 6e8, color: "#9fc6e0", sky: "#7e9bc2" },
+  { ago: 3.5e8, color: "#8fae8b", sky: "#a9c8e6" },
+  { ago: 2e8, color: "#7fa36b", sky: "#b9d3c4" },
+  { ago: 6.6e7, color: "#f2a65a", sky: "#cfe3f2" },
+  { ago: 3e5, color: "#f7a8a0", sky: "#dfe8f0" },
+  { ago: 1.2e4, color: "#e3b341", sky: "#fbf3e6" },
+  { ago: 500, color: "#e0685a", sky: "#fbe7a1" },
+  { ago: 0, color: "#c8553d", sky: "#fbf3e6" },
+];
+
+function mix(a: string, b: string, t: number): string {
+  const pa = [1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16));
+  const pb = [1, 3, 5].map((i) => parseInt(b.slice(i, i + 2), 16));
+  return `#${pa
+    .map((v, i) =>
+      Math.round(v + (pb[i] - v) * t)
+        .toString(16)
+        .padStart(2, "0"),
+    )
+    .join("")}`;
+}
+
+/** Colour of the river (or sky) at a moment, interpolated on a log scale of years-ago. */
+export function riverColorAt(ago: number, key: "color" | "sky" = "color"): string {
+  const a = Math.max(ago, 1);
+  const la = Math.log10(a);
+  for (let i = 0; i < RIVER_STOPS.length - 1; i++) {
+    const s0 = RIVER_STOPS[i];
+    const s1 = RIVER_STOPS[i + 1];
+    const l0 = Math.log10(Math.max(s0.ago, 1));
+    const l1 = Math.log10(Math.max(s1.ago, 1));
+    if (la <= l0 && la >= l1) {
+      const t = l0 === l1 ? 1 : (l0 - la) / (l0 - l1);
+      return mix(s0[key], s1[key], t);
+    }
+  }
+  return RIVER_STOPS[RIVER_STOPS.length - 1][key];
+}
+
+/** Eases a viewport transition (for flights); t in 0..1. Interpolates in log space so deep→recent feels even. */
+export function lerpViewport(a: Viewport, b: Viewport, t: number): Viewport {
+  const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease in-out cubic
+  const L = (x: number) => Math.log(Math.max(x + 8, 8));
+  const U = (y: number) => Math.exp(y) - 8;
+  return clampViewport({ older: U(L(a.older) + (L(b.older) - L(a.older)) * e), newer: U(L(a.newer) + (L(b.newer) - L(a.newer)) * e) });
+}

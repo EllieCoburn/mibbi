@@ -1646,6 +1646,12 @@ export type Database = {
           sort_order: number
           created_at: string
           updated_at: string
+          start_uncertainty: number | null
+          end_uncertainty: number | null
+          date_label: string | null
+          category: string
+          is_hidden: boolean
+          companion_line: string | null
         }
         Insert: {
           id?: string
@@ -1676,6 +1682,12 @@ export type Database = {
           sort_order?: number
           created_at?: string
           updated_at?: string
+          start_uncertainty?: number | null
+          end_uncertainty?: number | null
+          date_label?: string | null
+          category?: string
+          is_hidden?: boolean
+          companion_line?: string | null
         }
         Update: {
           id?: string
@@ -1706,6 +1718,12 @@ export type Database = {
           sort_order?: number
           created_at?: string
           updated_at?: string
+          start_uncertainty?: number | null
+          end_uncertainty?: number | null
+          date_label?: string | null
+          category?: string
+          is_hidden?: boolean
+          companion_line?: string | null
         }
         Relationships: [
           {

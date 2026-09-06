@@ -7,6 +7,8 @@ The timeline is the product. Phases below are ordered by how much they improve t
 - **Foundation**: Next.js 16, Supabase Auth, schema + RLS, design system, deployment, setup notice (see git history and [ARCHITECTURE.md](./ARCHITECTURE.md)).
 - **The pivot** ([PIVOT.md](./PIVOT.md)): timeline data model and seed (~150 entries, 13 regions, 6 adventures), the interactive timeline (proportional zoom/pan, nested era bands, level-of-detail markers, You Are Here, jump chips, entry panel with What/When/Where/Why, _What else was happening?_, _Which came first?_, companions, Add to museum, shareable URLs), the Atlas (time → world, place → history), the Museum (discoveries + nested personal timeline), Adventures (list, runner, physical-Mibbi unlocks), the homepage as a journey through time, and removal of the virtual-pet surfaces.
 
+- **The refinement pass** (the timeline as an experience, not a chart): the river of time with an environment that changes across the ages, markers that grow from the river with category icons, duration ribbons for civilizations and lifetimes, level-of-detail by zoom, an era navigator instead of a toolbar, a collectible discovery panel with honest dates (c. / ranges / uncertainty), before / after and relations, a simultaneity mode where lanes become regions, the Atlas “alive at the same time” strip, a stronger You Are Here, hidden discoveries Mibbis dig up, companions that ride on the selection, and a first-visit flight from the Big Bang to today. Content grew to ~400 entries across 14 categories.
+
 ## Next: Milestone A — Adoption as portals
 
 - `/adopt`: mobile-first code entry calling the tested `redeem_adoption_code()`; success reveals the companion and its adventure.

@@ -47,8 +47,8 @@ export function AdventuresTeaser({ adventures, characters }: { adventures: Adven
           <ToyLink href={routes.adventures} size="lg" color="pistachio">
             See all adventures
           </ToyLink>
-          <ToyLink href={routes.adopt} size="lg" color="paper">
-            Unlock my Mibbi
+          <ToyLink href={routes.characters} size="lg" color="paper">
+            Meet the companions
           </ToyLink>
         </div>
       </div>

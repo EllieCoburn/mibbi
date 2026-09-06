@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { TimelineExplorer, type AdventureContext } from "@/components/timeline/timeline-explorer";
-import { getAdventureBySlug, getCompanion, getRegions, getTimelineEntries, getUserDiscoveries } from "@/lib/data/timeline";
+import { getAdventureBySlug, getAdventures, getCompanion, getRegions, getRelations, getTimelineEntries, getUserDiscoveries } from "@/lib/data/timeline";
 import { getCurrentUser } from "@/lib/data/profile";
 import { viewportFromParams } from "@/lib/timeline/time";
 import type { AdventureStep } from "@/lib/timeline/types";
@@ -8,7 +8,7 @@ import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "The Mibbi Timeline",
-  description: "Explore the story of everything, from the first stars to right now.",
+  description: "Travel from the beginning of the universe to right now, and discover where everything fits.",
 };
 
 export const dynamic = "force-dynamic";
@@ -18,9 +18,11 @@ export default async function TimelinePage({ searchParams }: PageProps<"/timelin
   const str = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : null);
 
   const user = await getCurrentUser();
-  const [entries, regions, discoveries, companion] = await Promise.all([
+  const [entries, regions, relations, adventures, discoveries, companion] = await Promise.all([
     getTimelineEntries(),
     getRegions(),
+    getRelations(),
+    getAdventures(),
     getUserDiscoveries(user?.id ?? null),
     getCompanion(user?.id ?? null),
   ]);
@@ -47,14 +49,13 @@ export default async function TimelinePage({ searchParams }: PageProps<"/timelin
 
   return (
     <div className="flex min-h-0 flex-1 flex-col px-3 sm:px-4">
-      <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2 px-1">
-        <h1 className="font-display text-chocolate text-2xl font-bold sm:text-3xl">The story of everything</h1>
-        <p className="text-ink-soft text-sm">Drag to move. Scroll or pinch to zoom. Tap anything.</p>
-      </div>
+      <h1 className="font-display text-chocolate mb-1 px-1 text-2xl font-bold sm:text-3xl">The story of everything</h1>
       <div className="min-h-0 flex-1">
         <TimelineExplorer
           entries={entries}
           regions={regions}
+          relations={relations}
+          adventures={adventures}
           discoveredIds={discoveries.map((d) => d.entry_id)}
           companion={companion}
           signedIn={user !== null}

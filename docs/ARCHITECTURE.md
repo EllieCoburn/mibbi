@@ -47,6 +47,10 @@ Each decision is listed with the alternative we rejected and why. Nothing here s
 | 20 | **Companions are data**: `characters.curiosity_key` matches `timeline_entries.curiosity_key` | Scripted per-character dialogue | Any Mibbi can "notice" any entry with a matching curiosity; adding a companion is a row. |
 | 21 | **Invisible assessment in `concept_signals`**, never surfaced as a grade | Score screens, badges for correctness | The brief is explicit: the child should forget they are learning. Signals inform what the world offers next. |
 
+| 22 | **The river of time**: one SVG ribbon whose gradient is sampled from the viewport; sky, river and marker positions all derive from the same viewport math in `lib/timeline/time.ts` | Per-era hand-drawn backgrounds | One source of truth for position means nothing can drift out of sync; final illustration can still be layered behind. |
+| 23 | **Honest dates**: `precision` + `start_uncertainty` / `end_uncertainty` + optional `date_label`, formatted by `lib/timeline/format.ts` ("c. 300,000 years ago", "c. 10,900–9,700 BCE") | Exact numbers everywhere | The product's credibility rests on never implying false precision. |
+| 24 | **Era navigator sized by log(duration), labelled "not to scale"** | A to-scale minimap | A to-scale overview would hide everything after the dinosaurs; the navigator is for grabbing, the track is for truth. |
+
 ### Things deliberately deferred
 
 - **Shopify**: `product_skus.shopify_product_id/variant_id` and `purchase_url` exist; the sync job does not. Nothing else needs to change to add it.

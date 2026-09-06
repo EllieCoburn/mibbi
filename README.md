@@ -33,7 +33,7 @@ pnpm dlx supabase login
 pnpm dlx supabase link --project-ref <your-project-ref>
 pnpm dlx supabase db push          # applies supabase/migrations
 psql "$SUPABASE_DB_URL" -f supabase/seed.sql            # companions, items, demo codes
-psql "$SUPABASE_DB_URL" -f supabase/seeds/timeline.sql  # the story of everything (~150 entries)
+psql "$SUPABASE_DB_URL" -f supabase/seeds/01-timeline.sql  # the story of everything (~150 entries)
 ```
 
 **Option B — local Supabase (Docker)**
