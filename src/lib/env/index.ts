@@ -38,7 +38,10 @@ function formatIssues(issues: z.ZodIssue[]): string {
  */
 export function cleanEnvValue(value: string | undefined, kind: "url" | "text" = "text"): string | undefined {
   if (value === undefined) return undefined;
-  let v = value.trim().replace(/^["']+|["']+$/g, "").trim();
+  let v = value
+    .trim()
+    .replace(/^["']+|["']+$/g, "")
+    .trim();
   if (v === "") return undefined;
   if (kind === "url" && !/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = `https://${v}`;
   return v;

@@ -1,27 +1,27 @@
 import { redirect } from "next/navigation";
-import { AppHeader } from "@/components/app/app-header";
-import { AppNav } from "@/components/app/app-nav";
-import { getCurrentUser, getHomeSnapshot } from "@/lib/data/profile";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SetupNotice } from "@/components/layout/setup-notice";
+import { getCurrentUser } from "@/lib/data/profile";
 import { routes } from "@/lib/routes";
 
 /**
- * Signed-in app shell. The proxy already bounces anonymous visitors, but we
- * check again here: layouts must never trust the proxy alone.
+ * Account pages (adopt, collection, profile). Same floating header as the
+ * rest of the world; requires a session. The proxy already bounces
+ * anonymous visitors, but layouts never trust the proxy alone.
  */
-// Every signed-in route depends on the session; never prerender.
 export const dynamic = "force-dynamic";
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
   if (!user) redirect(routes.login);
 
-  const snapshot = await getHomeSnapshot(user.id);
-
   return (
-    <div className="flex min-h-full flex-1 flex-col sm:pl-20 lg:pl-56">
-      <AppNav />
-      <AppHeader user={user} coins={snapshot.coins} />
-      <main className="flex-1 pb-24 sm:pb-8">{children}</main>
-    </div>
+    <>
+      <SiteHeader />
+      <main className="flex-1 pt-20 pb-10 sm:pt-24">{children}</main>
+      <div className="fixed inset-x-0 bottom-0 z-50">
+        <SetupNotice />
+      </div>
+    </>
   );
 }

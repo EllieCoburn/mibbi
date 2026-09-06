@@ -9,7 +9,11 @@ describe("ToyButton", () => {
     expect(b.className).toContain("toy-btn");
   });
   it("renders a link with an accessible label", () => {
-    render(<ToyLink href="/home" ariaLabel="Enter Mibbi World">Enter</ToyLink>);
+    render(
+      <ToyLink href="/home" ariaLabel="Enter Mibbi World">
+        Enter
+      </ToyLink>,
+    );
     expect(screen.getByRole("link", { name: "Enter Mibbi World" })).toHaveAttribute("href", "/home");
   });
 });

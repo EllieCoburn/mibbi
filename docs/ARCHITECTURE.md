@@ -9,11 +9,14 @@ This document is the technical map of the Mibbi platform: what we decided, why, 
 
 ## 1. What we are building
 
-A **physical-to-digital collectible ecosystem**. The squishy is the entry product; the website is the retention engine. Every design decision below follows from three product principles in the brief:
+**Mibbi is an interactive, gamified timeline of the story of everything.** Children explore the universe, Earth, life, humanity, civilizations, science, culture and the modern world by moving through time itself. The timeline is the product; the Atlas, Museum, Adventures and the Mibbi companions all open from it and return to it. See [PIVOT.md](./PIVOT.md) for how we got here from the original collectible-world concept.
 
-1. **Physical ownership must matter.** Buying another real Mibbi meaningfully expands the digital experience.
-2. **Build systems, not content.** The founder must be able to add characters, series, quests, items and events without a developer.
-3. **Children may use this.** No chat, no public profiles, no trading, minimal data, calm engagement.
+Every design decision follows from four principles:
+
+1. **The timeline is the product.** If a feature does not improve the timeline or the child's understanding of time, it is secondary.
+2. **Time is proportional and spatial.** Never equal-width eras. Every entry has a region and coordinates.
+3. **Build systems, not content.** New eras, events, people, adventures and companions are rows, not deploys.
+4. **Children may use this.** No chat, no public profiles, no trading, no grades, minimal data, calm engagement.
 
 ## 2. Architectural decisions
 
@@ -37,6 +40,12 @@ Each decision is listed with the alternative we rejected and why. Nothing here s
 | 14  | **Placeholder art is generated from data** (`MibbiAvatar` draws a blob + personality face from `placeholder_color`, `placeholder_shape`, `personality_key`) | Static placeholder PNGs                               | The site feels alive before final art exists; final art drops in by setting `image_url`.                                                                                                                                                                          |
 | 15  | **Mobile-first, app-like shell** (bottom tab bar on phones, rail on desktop)                                                                                | Desktop nav collapsed into a hamburger                | Most adoptions will start from a QR code on a phone.                                                                                                                                                                                                              |
 | 16  | **No real-money purchases in the digital world**; no third-party analytics SDK in the MVP                                                                   | Coin packs, GA4                                       | Brief: physical is the revenue engine; privacy-conscious analytics come from our own tables (`activity_log`, `game_scores`, `adoption_attempts`).                                                                                                                 |
+
+| 17 | **One time axis for everything**: `start_year`/`end_year` as doubles, negative = BCE, deep time as large negatives; viewports in "years ago" with linear scale and zoom | Log scale, or per-era sub-timelines | Linear + zoom is what makes scale _felt_: human history is invisibly thin at the universe view until you zoom. A log scale would lie about proportion. |
+| 18 | **Level of detail by collision culling** (importance first; overlapping markers fold into a "+n" until there is room) | Hard zoom thresholds per entry | Detail reveals itself naturally as the child zooms, everywhere, with no per-row tuning. `min_span_years` remains as an optional hard gate. |
+| 19 | **"What else was happening?" is computed from the same entries** with a tolerance that widens with distance from today (5% of years-ago, min 50 years) | A separate "simultaneity" table | One rule serves the timeline panel, the Atlas and the SQL helper `entries_around_year()`, so they can never disagree. |
+| 20 | **Companions are data**: `characters.curiosity_key` matches `timeline_entries.curiosity_key` | Scripted per-character dialogue | Any Mibbi can "notice" any entry with a matching curiosity; adding a companion is a row. |
+| 21 | **Invisible assessment in `concept_signals`**, never surfaced as a grade | Score screens, badges for correctness | The brief is explicit: the child should forget they are learning. Signals inform what the world offers next. |
 
 ### Things deliberately deferred
 
@@ -97,10 +106,11 @@ mibbi/
     ├── app/                       Routes (App Router)
     │   ├── layout.tsx             Fonts, metadata, <html>
     │   ├── globals.css            Design tokens (Tailwind v4 @theme)
-    │   ├── (marketing)/           Public: /, /mibbis, /mibbis/[slug], /parents
+    │   ├── (marketing)/           Public: /, /mibbis, /mibbis/[slug], /parents, /news, /store
+    │   ├── (explore)/             The product: /timeline, /atlas, /museum, /adventures, /adventures/[slug]
     │   ├── (auth)/                /login /signup /forgot-password /reset-password /check-email
     │   ├── auth/                  /auth/callback, /auth/confirm route handlers
-    │   ├── (app)/                 Signed-in shell: /home /adopt /collection /world /games /quests /shop /inventory /profile
+    │   ├── (app)/                 Account pages: /adopt /collection /profile (/home and /world redirect)
     │   └── admin/                 Admin dashboard (gated by admin_users)
     ├── components/
     │   ├── ui/                    Button, Card, Field, Badge, Alert, Logo, EmptyState, ComingSoon…
@@ -113,8 +123,9 @@ mibbi/
     │   ├── env/                   Validated env access (public vs server-only)
     │   ├── supabase/              client.ts (browser), server.ts (RSC/actions), admin.ts (service role), proxy.ts
     │   ├── auth/                  zod schemas + server actions (signUp, signIn, signOut, reset, updateProfile)
+    │   ├── timeline/              time.ts (viewport + formatting math, tested), lod.ts (marker placement), types.ts, actions.ts
     │   ├── adoption/              Code format, generation, normalisation (codes.ts) and server-only hashing (hash.ts)
-    │   ├── data/                  Read models: characters, world, profile, collection, admin
+    │   ├── data/                  Read models: timeline (entries, regions, adventures, discoveries, companion), characters, profile, admin
     │   ├── content/               Personalities (faces, voice lines), brand copy
     │   ├── routes.ts              Route map + protected-route logic
     │   └── utils/                 cn()

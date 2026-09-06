@@ -1,9 +1,8 @@
 /**
- * The Mibbi Bulletin: news from inside the world.
+ * The Mibbi Bulletin: news from inside time.
  *
- * Static for now so the homepage ships; Phase 7 replaces this with a
- * `bulletins` table managed from the admin dashboard. Keep the shape stable
- * so the components need no change when that happens.
+ * Static for now so the homepage ships; the admin CMS replaces this with a
+ * `bulletins` table. Keep the shape stable so the components need no change.
  */
 export type BulletinKind = "arrival" | "discovery" | "event" | "collectible" | "update";
 
@@ -14,63 +13,62 @@ export interface BulletinItem {
   body: string;
   /** Character slug who "reported" it, for the byline avatar. */
   reporter?: string;
-  /** Short date label; free text so the fiction can be playful. */
   dateLabel: string;
   href?: string;
 }
 
 export const BULLETIN_KIND_LABEL: Record<BulletinKind, string> = {
-  arrival: "New Mibbi",
-  discovery: "New area",
-  event: "Event",
-  collectible: "Limited",
+  arrival: "New on the timeline",
+  discovery: "Discovery",
+  event: "Expedition",
+  collectible: "Rare find",
   update: "World update",
 };
 
 export const BULLETIN: BulletinItem[] = [
   {
-    id: "noodle-arrives",
-    kind: "arrival",
-    title: "Someone new is on the road to Cozy Town.",
-    body: "A bunny with a map, a snack and no plan. Noodle arrives with Series 02.",
-    reporter: "noodle",
-    dateLabel: "Coming soon",
-    href: "/mibbis",
-  },
-  {
-    id: "forest-path",
+    id: "same-time",
     kind: "discovery",
-    title: "A path has appeared behind the Bakery.",
-    body: "It leads into Mibbi Forest. Crumb would like everyone to be careful.",
-    reporter: "crumb",
-    dateLabel: "This week",
-    href: "/world",
+    title: "Pyramids were being built on two continents at once.",
+    body: "Around 2600 BCE, Egypt raised the Great Pyramid while Caral rose on the coast of Peru. Neither knew about the other.",
+    reporter: "butter",
+    dateLabel: "2600 BCE",
+    href: "/atlas?year=-2600",
   },
   {
-    id: "weekend-bake",
+    id: "rex-closer",
+    kind: "arrival",
+    title: "T. rex lived closer to you than to Stegosaurus.",
+    body: "Crumb checked three times. Eighty million years separate the two dinosaurs. Only sixty-six separate T. rex from you.",
+    reporter: "crumb",
+    dateLabel: "66 million years ago",
+    href: "/timeline?focus=t-rex",
+  },
+  {
+    id: "missing-bone",
     kind: "event",
-    title: "Weekend Bake-Off at the Bakery.",
-    body: "Play Bakery Catch all weekend for double coins. Toast will supervise (asleep).",
-    reporter: "toast",
-    dateLabel: "Sat–Sun",
-    href: "/games",
+    title: "Expedition: The Missing Bone.",
+    body: "A strange bone by the river. Follow it back through deep time with Crumb. Unlocked by a real Crumb.",
+    reporter: "crumb",
+    dateLabel: "Adventure",
+    href: "/adventures/the-missing-bone",
   },
   {
     id: "golden-crumb",
     kind: "collectible",
     title: "Golden Crumb has been spotted. Once.",
-    body: "One in seventy-two boxes. Nobody is supposed to know about this.",
+    body: "One in seventy-two boxes. It opens a secret expedition nobody is supposed to know about.",
     reporter: "crumb",
     dateLabel: "Rumour",
     href: "/mibbis/crumb",
   },
   {
-    id: "rooms-open",
+    id: "atlas-open",
     kind: "update",
-    title: "Rooms are open for decorating.",
-    body: "Rugs, lamps, a bed shaped like a loaf. Butter thinks yours could use a cushion.",
-    reporter: "butter",
+    title: "The Atlas is open.",
+    body: "Pick any moment and see who was busy everywhere in the world at the same time. Noodle recommends the year 1200.",
+    reporter: "noodle",
     dateLabel: "New",
-    href: "/home",
+    href: "/atlas?year=1200",
   },
 ];

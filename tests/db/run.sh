@@ -24,6 +24,7 @@ done
 
 echo "→ seed"
 psql "$TEST_URL" -v ON_ERROR_STOP=1 -q -f supabase/seed.sql
+for f in supabase/seeds/*.sql; do echo "→ seed $(basename "$f")"; psql "$TEST_URL" -v ON_ERROR_STOP=1 -q -f "$f"; done
 
 for f in tests/db/[1-9]*.sql; do
   echo "→ test $(basename "$f")"

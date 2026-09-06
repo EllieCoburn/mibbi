@@ -1,6 +1,10 @@
 /** Brand voice snippets reused across the app. Warm, slightly weird, never corporate. */
 export const copy = {
   tagline: "Little friends. Big feelings.",
+  headline: "Explore the story of everything.",
+  support: "From the first stars to right now, discover where everything fits.",
+  whatIs:
+    "Mibbi is a world where children explore the story of everything: the universe, Earth, life, people, ideas and inventions, by moving through time itself.",
   heroLine1: "Collect them in real life.",
   heroLine2: "Bring them to life online.",
   motto: "Squish. Collect. Play. Belong.",

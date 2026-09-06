@@ -1,10 +1,10 @@
 # Mibbi
 
-**Little friends. Big feelings.** Mibbi is a physical-to-digital collectible brand: soft squishy characters that come with a one-time adoption code, unlocking a digital companion, a room to decorate, quests, games and a world to explore.
+**Explore the story of everything.** Mibbi is an interactive, gamified timeline from the first stars to right now. Children explore the universe, Earth, life, people, ideas and inventions by moving through time itself, with collectible Mibbi companions riding along. Physical Mibbis are portals that unlock adventures.
 
-This repository is the web platform: public site, adoption, collection, room, economy, games, world map and admin dashboard.
+This repository is the web platform: the timeline, the Atlas, the Museum, Adventures, accounts, adoption codes and the admin dashboard.
 
-- **Docs:** [Architecture](docs/ARCHITECTURE.md) · [Database](docs/DATABASE.md) · [User flows](docs/USER_FLOWS.md) · [Security & child safety](docs/SECURITY.md) · [Roadmap](docs/ROADMAP.md)
+- **Docs:** [Pivot audit](docs/PIVOT.md) · [Architecture](docs/ARCHITECTURE.md) · [Database](docs/DATABASE.md) · [User flows](docs/USER_FLOWS.md) · [Security & child safety](docs/SECURITY.md) · [Roadmap](docs/ROADMAP.md)
 - **Stack:** Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage) · Vercel
 
 ## Getting started
@@ -32,7 +32,8 @@ Fill `.env.local` with your Supabase URL and anon key (Project Settings → API)
 pnpm dlx supabase login
 pnpm dlx supabase link --project-ref <your-project-ref>
 pnpm dlx supabase db push          # applies supabase/migrations
-psql "$SUPABASE_DB_URL" -f supabase/seed.sql   # demo content (or paste into the SQL editor)
+psql "$SUPABASE_DB_URL" -f supabase/seed.sql            # companions, items, demo codes
+psql "$SUPABASE_DB_URL" -f supabase/seeds/timeline.sql  # the story of everything (~150 entries)
 ```
 
 **Option B — local Supabase (Docker)**

@@ -9,9 +9,9 @@ export function Bulletin({ characters, limit = 4 }: { characters: CharacterSumma
     <section aria-labelledby="bulletin-heading" className="py-16 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Masthead */}
-        <div className="chunky mx-auto max-w-2xl rounded-2xl bg-paper px-6 py-4 text-center">
-          <p className="font-display text-xs font-bold tracking-[0.3em] text-ink-mute uppercase">News from inside the world</p>
-          <h2 id="bulletin-heading" className="mt-1 font-display text-4xl font-bold tracking-tight text-chocolate uppercase sm:text-5xl">
+        <div className="chunky bg-paper mx-auto max-w-2xl rounded-2xl px-6 py-4 text-center">
+          <p className="font-display text-ink-mute text-xs font-bold tracking-[0.3em] uppercase">News from inside the world</p>
+          <h2 id="bulletin-heading" className="font-display text-chocolate mt-1 text-4xl font-bold tracking-tight uppercase sm:text-5xl">
             The Mibbi Bulletin
           </h2>
         </div>

@@ -18,19 +18,19 @@ export default async function StorePage() {
     <PageTop width="max-w-7xl">
       <div className="text-center">
         <h1 className="text-4xl sm:text-5xl">The Mibbi Shop</h1>
-        <p className="mt-2 font-display text-lg text-ink-soft">Real, squishable Mibbis. Each one comes with a secret life online.</p>
+        <p className="font-display text-ink-soft mt-2 text-lg">Real, squishable Mibbis. Each one comes with a secret life online.</p>
       </div>
       {series.map((s) => (
         <section key={s.id} aria-labelledby={`series-${s.slug}`} className="mt-14">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="font-display text-xs font-bold tracking-[0.25em] text-ink-mute uppercase">Series {s.code.replace(/^S/, "")}</p>
+              <p className="font-display text-ink-mute text-xs font-bold tracking-[0.25em] uppercase">Series {s.code.replace(/^S/, "")}</p>
               <h2 id={`series-${s.slug}`} className="text-3xl">
                 {s.name}
               </h2>
               {s.tagline ? <p className="text-ink-soft">{s.tagline}</p> : null}
             </div>
-            <span className="sticker bg-butter px-3 py-1 text-xs text-chocolate">Coming to stores</span>
+            <span className="sticker bg-butter text-chocolate px-3 py-1 text-xs">Coming to stores</span>
           </div>
           <ul className="mt-8 grid grid-cols-2 gap-5 sm:gap-7 lg:grid-cols-3 xl:grid-cols-6">
             {s.characters.map((c, i) => (
@@ -42,7 +42,7 @@ export default async function StorePage() {
         </section>
       ))}
       <div className="mt-16 text-center">
-        <p className="font-display text-lg text-chocolate">Already have one?</p>
+        <p className="font-display text-chocolate text-lg">Already have one?</p>
         <div className="mt-3">
           <ToyLink href={routes.adopt} size="lg">
             Unlock my Mibbi

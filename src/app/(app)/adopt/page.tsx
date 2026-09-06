@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { ComingSoon } from "@/components/ui/coming-soon";
 
-export const metadata: Metadata = { title: "Adopt a Mibbi" };
+export const metadata: Metadata = { title: "Unlock a Mibbi" };
 
 export default function Page() {
   return (
     <ComingSoon
-      title="Adopt a Mibbi"
-      phase="Phase 2 · Adoption"
-      blurb="Scan or type the code from inside your box and meet your digital Mibbi. Coming in the next milestone."
+      title="Unlock a Mibbi"
+      phase="Next milestone · Portals"
+      blurb="Scan the code inside your box. Your Mibbi becomes a companion on the timeline and opens its own adventure."
     />
   );
 }
