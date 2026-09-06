@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { Card, CardBody } from "@/components/ui/card";
-import { LinkButton } from "@/components/ui/button";
+import { ToyLink } from "@/components/ui/toy-button";
 import { MibbiAvatar } from "@/components/characters/mibbi-avatar";
 import { RarityBadge } from "@/components/characters/rarity-badge";
 import { getCharacterBySlug } from "@/lib/data/characters";
@@ -25,7 +25,7 @@ export default async function CharacterPage({ params }: PageProps<"/mibbis/[slug
   const personality = getPersonality(character.personality_key);
 
   return (
-    <Container className="py-12 sm:py-16">
+    <Container className="pt-28 pb-16 sm:pt-32">
       <Link href={routes.characters} className="font-display text-ink-soft hover:text-brand text-sm font-semibold">
         ← All Mibbis
       </Link>
@@ -100,10 +100,12 @@ export default async function CharacterPage({ params }: PageProps<"/mibbis/[slug
           ) : null}
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <LinkButton href={routes.adopt}>Adopt {character.name}</LinkButton>
-            <LinkButton href={routes.characters} variant="secondary">
+            <ToyLink href={routes.adopt} size="lg">
+              Adopt {character.name}
+            </ToyLink>
+            <ToyLink href={routes.characters} color="paper" size="lg">
               Meet the others
-            </LinkButton>
+            </ToyLink>
           </div>
         </div>
       </div>

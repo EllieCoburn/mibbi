@@ -39,6 +39,19 @@
   --color-lavender-deep: #8e8bc2;
   --color-toast: #c98a4b;
 
+  /* World (sky, land, path) — used by the illustrated scene and tiles */
+  --color-sky: #cfe3f2;
+  --color-sky-deep: #a9c8e6;
+  --color-sun: #fbe7a1;
+  --color-hill-far: #b9d3c4;
+  --color-hill-mid: #9fc49a;
+  --color-hill-near: #86b07f;
+  --color-grass: #a8cf8e;
+  --color-path: #f0d9b5;
+  --color-roof: #e0685a;
+  --color-wall: #fff4e3;
+  --color-water: #9fc6e0;
+
   /* Semantic */
   --color-success: #6f9270;
   --color-warning: #e3b341;
@@ -60,6 +73,12 @@
   --animate-wiggle: wiggle 0.6s ease-in-out;
   --animate-pop: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   --animate-blink: blink 6s infinite;
+  --animate-drift: drift 60s linear infinite;
+  --animate-drift-slow: drift 95s linear infinite;
+  --animate-bob: bob 3.2s ease-in-out infinite;
+  --animate-sway: sway 4s ease-in-out infinite;
+  --animate-peek: peek 9s ease-in-out infinite;
+  --animate-twinkle: twinkle 3s ease-in-out infinite;
 
   @keyframes float {
     0%,
@@ -91,6 +110,26 @@
       transform: scale(1);
       opacity: 1;
     }
+  }
+  @keyframes drift {
+    from { transform: translateX(-12%); }
+    to { transform: translateX(112%); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+  }
+  @keyframes peek {
+    0%, 55%, 100% { transform: translateY(78%); }
+    65%, 90% { transform: translateY(6%); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
   }
   @keyframes blink {
     0%,
@@ -155,4 +194,72 @@
 /* Safe-area padding for phones with home indicators */
 @utility pb-safe {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* ---------------------------------------------------------------------------
+   Toy button: chunky, dimensional, glossy, compresses when pressed.
+   Colour comes from --toy (face) and --toy-deep (side); see ToyButton.
+--------------------------------------------------------------------------- */
+@utility toy-btn {
+  --toy: var(--color-brand);
+  --toy-deep: var(--color-brand-deep);
+  --toy-ink: var(--color-paper);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 3px solid var(--color-chocolate);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0) 48%),
+    var(--toy);
+  color: var(--toy-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow:
+    0 6px 0 0 var(--toy-deep),
+    0 6px 0 3px var(--color-chocolate),
+    0 14px 24px -10px rgb(74 46 34 / 0.45);
+  transform: translateY(0);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  user-select: none;
+}
+@utility toy-btn-hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow:
+    0 7px 0 0 var(--toy-deep),
+    0 7px 0 3px var(--color-chocolate),
+    0 18px 28px -10px rgb(74 46 34 / 0.45);
+}
+@utility toy-btn-press {
+  transform: translateY(5px);
+  box-shadow:
+    0 1px 0 0 var(--toy-deep),
+    0 1px 0 3px var(--color-chocolate),
+    0 6px 10px -6px rgb(74 46 34 / 0.4);
+}
+
+/* Chunky bordered panel used for cards, tiles and the nav pill */
+@utility chunky {
+  border: 3px solid var(--color-chocolate);
+  box-shadow: 0 5px 0 0 var(--color-chocolate), 0 16px 30px -14px rgb(74 46 34 / 0.35);
+}
+@utility chunky-sm {
+  border: 2.5px solid var(--color-chocolate);
+  box-shadow: 0 3px 0 0 var(--color-chocolate);
+}
+
+/* Sticker: rotated label with a paper edge */
+@utility sticker {
+  border: 2px solid var(--color-chocolate);
+  box-shadow: 0 2px 0 0 var(--color-chocolate);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }

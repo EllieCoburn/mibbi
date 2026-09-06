@@ -24,7 +24,7 @@ const PROMISES = [
 
 export default function ParentsPage() {
   return (
-    <Container className="py-12 sm:py-16">
+    <Container className="pt-28 pb-16 sm:pt-32">
       <div className="mx-auto max-w-2xl text-center">
         <p className="font-display text-ink-mute text-sm font-semibold tracking-wide uppercase">For parents and guardians</p>
         <h1 className="mt-2 text-4xl sm:text-5xl">A softer internet for brighter days.</h1>

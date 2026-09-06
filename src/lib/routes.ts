@@ -5,6 +5,8 @@
 export const routes = {
   home: "/",
   parents: "/parents",
+  news: "/news",
+  store: "/store",
   characters: "/mibbis",
   character: (slug: string) => `/mibbis/${slug}`,
   login: "/login",
