@@ -5,6 +5,7 @@ import "server-only";
  * session so RLS decides visibility (public sees active only; admins see all).
  */
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/env";
 import type { Tables } from "@/types/supabase";
 
 export type Rarity = Pick<Tables<"rarities">, "slug" | "name" | "color_hex" | "sort_order" | "odds_label">;
@@ -37,13 +38,18 @@ const SUMMARY_SELECT =
   "id, slug, name, species, personality_key, personality_label, tagline, placeholder_color, placeholder_shape, image_url, thumbnail_url, rarity_slug, sort_order, rarity:rarities(slug, name, color_hex, sort_order, odds_label)";
 
 export async function getActiveCharacters(): Promise<CharacterSummary[]> {
+  if (!isSupabaseConfigured()) return [];
   const supabase = await createClient();
   const { data, error } = await supabase.from("characters").select(SUMMARY_SELECT).eq("status", "active").order("sort_order");
-  if (error) throw new Error(`Failed to load characters: ${error.message}`);
+  if (error) {
+    console.error("Failed to load characters:", error.message);
+    return [];
+  }
   return (data ?? []) as unknown as CharacterSummary[];
 }
 
 export async function getCharacterBySlug(slug: string): Promise<CharacterDetail | null> {
+  if (!isSupabaseConfigured()) return null;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("characters")
@@ -54,7 +60,10 @@ export async function getCharacterBySlug(slug: string): Promise<CharacterDetail 
     )
     .eq("slug", slug)
     .maybeSingle();
-  if (error) throw new Error(`Failed to load character: ${error.message}`);
+  if (error) {
+    console.error("Failed to load character:", error.message);
+    return null;
+  }
   if (!data) return null;
 
   const { series_characters, ...rest } = data as unknown as CharacterDetail & {
@@ -72,13 +81,17 @@ export type SeriesWithCharacters = Pick<Tables<"series">, "id" | "slug" | "code"
 
 /** Active series with their characters, for the "Collect them all" checklist. */
 export async function getActiveSeriesWithCharacters(): Promise<SeriesWithCharacters[]> {
+  if (!isSupabaseConfigured()) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("series")
     .select(`id, slug, code, name, tagline, description, status, series_characters(sort_order, character:characters(${SUMMARY_SELECT}))`)
     .eq("status", "active")
     .order("sort_order");
-  if (error) throw new Error(`Failed to load series: ${error.message}`);
+  if (error) {
+    console.error("Failed to load series:", error.message);
+    return [];
+  }
 
   type Raw = Omit<SeriesWithCharacters, "characters"> & {
     series_characters: Array<{ sort_order: number; character: CharacterSummary | null }>;

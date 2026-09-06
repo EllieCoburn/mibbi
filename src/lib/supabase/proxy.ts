@@ -9,11 +9,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/types/database";
-import { getPublicEnv } from "@/lib/env";
+import { getPublicEnv, isSupabaseConfigured } from "@/lib/env";
 
 export async function updateSession(request: NextRequest) {
-  const env = getPublicEnv();
   let response = NextResponse.next({ request });
+
+  // Not configured yet (fresh deployment): behave as signed-out, never crash.
+  if (!isSupabaseConfigured()) {
+    return { response, user: null };
+  }
+
+  const env = getPublicEnv();
 
   const supabase = createServerClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {

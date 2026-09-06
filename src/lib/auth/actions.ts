@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { routes, safeNextPath } from "@/lib/routes";
-import { getPublicEnv } from "@/lib/env";
+import { getPublicEnv, isSupabaseConfigured } from "@/lib/env";
 import { fieldErrors, forgotPasswordSchema, resetPasswordSchema, signInSchema, signUpSchema, updateProfileSchema } from "./schemas";
 
 export interface ActionState {
@@ -20,6 +20,10 @@ export interface ActionState {
   /** Echoed values so the form doesn't clear on error. */
   values?: Record<string, string>;
 }
+
+const NOT_CONFIGURED: ActionState = {
+  message: "Accounts aren't switched on yet. The site needs its database settings first (see the notice at the top of the page).",
+};
 
 function str(form: FormData, key: string): string {
   const v = form.get(key);
@@ -46,6 +50,7 @@ function friendlyAuthError(message: string): string {
 }
 
 export async function signUp(_prev: ActionState, form: FormData): Promise<ActionState> {
+  if (!isSupabaseConfigured()) return NOT_CONFIGURED;
   const raw = {
     displayName: str(form, "displayName"),
     email: str(form, "email"),
@@ -76,6 +81,7 @@ export async function signUp(_prev: ActionState, form: FormData): Promise<Action
 }
 
 export async function signIn(_prev: ActionState, form: FormData): Promise<ActionState> {
+  if (!isSupabaseConfigured()) return NOT_CONFIGURED;
   const raw = { email: str(form, "email"), password: str(form, "password") };
   const next = safeNextPath(str(form, "next"));
   const parsed = signInSchema.safeParse(raw);
@@ -101,6 +107,7 @@ export async function signOut(): Promise<void> {
 }
 
 export async function requestPasswordReset(_prev: ActionState, form: FormData): Promise<ActionState> {
+  if (!isSupabaseConfigured()) return NOT_CONFIGURED;
   const parsed = forgotPasswordSchema.safeParse({ email: str(form, "email") });
   if (!parsed.success) {
     return { errors: fieldErrors(parsed.error) };
