@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Mibbi design tokens
+   Warm, soft, slightly nostalgic. Cream ground, chocolate ink, terracotta
+   brand, and a small set of pastel character colours. Never neon.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Fonts (loaded in app/layout.tsx via next/font) */
+  --font-display: var(--font-fredoka), "Nunito", ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+
+  /* Ground + ink */
+  --color-cream: #fbf3e6;
+  --color-cream-deep: #f4e7d3;
+  --color-paper: #fffaf2;
+  --color-chocolate: #4a2e22;
+  --color-ink: #3b2a22;
+  --color-ink-soft: #7a635a;
+  --color-ink-mute: #a89388;
+  --color-line: #ead9c3;
+
+  /* Brand */
+  --color-brand: #c8553d;
+  --color-brand-deep: #a9432e;
+  --color-brand-soft: #f7d9d0;
+
+  /* Character / accent palette */
+  --color-butter: #f6d68a;
+  --color-butter-deep: #e3b341;
+  --color-tomato: #e0685a;
+  --color-peach: #f7a8a0;
+  --color-apricot: #f2a65a;
+  --color-pistachio: #8fae8b;
+  --color-pistachio-deep: #6f9270;
+  --color-dusty: #7e9bc2;
+  --color-dusty-soft: #b9c9db;
+  --color-lavender: #b7a9d6;
+  --color-lavender-deep: #8e8bc2;
+  --color-toast: #c98a4b;
+
+  /* Semantic */
+  --color-success: #6f9270;
+  --color-warning: #e3b341;
+  --color-danger: #c8553d;
+
+  /* Radii: everything is rounded; nothing is sharp */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 2.5rem;
+
+  /* Soft shadows, never harsh */
+  --shadow-soft: 0 1px 2px rgb(74 46 34 / 0.05), 0 6px 20px -8px rgb(74 46 34 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(74 46 34 / 0.06), 0 14px 32px -12px rgb(74 46 34 / 0.28);
+  --shadow-press: inset 0 2px 4px rgb(74 46 34 / 0.12);
+
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-wiggle: wiggle 0.6s ease-in-out;
+  --animate-pop: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-blink: blink 6s infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-4deg);
+    }
+    75% {
+      transform: rotate(4deg);
+    }
+  }
+  @keyframes pop {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes blink {
+    0%,
+    92%,
+    100% {
+      transform: scaleY(1);
+    }
+    95% {
+      transform: scaleY(0.1);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-chocolate font-semibold tracking-tight;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-butter);
+    color: var(--color-chocolate);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-dusty);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Subtle paper grain used behind hero sections */
+@utility bg-grain {
+  background-image: radial-gradient(rgb(74 46 34 / 0.045) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Safe-area padding for phones with home indicators */
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
