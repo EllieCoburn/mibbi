@@ -25,3 +25,19 @@ describe("env validation", () => {
     expect(() => getServerEnv()).toThrow(/ADOPTION_CODE_PEPPER/);
   });
 });
+
+describe("cleanEnvValue", () => {
+  it("forgives whitespace, quotes and a missing scheme", async () => {
+    const { cleanEnvValue } = await import("@/lib/env");
+    expect(cleanEnvValue("  https://abc.supabase.co\n", "url")).toBe("https://abc.supabase.co");
+    expect(cleanEnvValue('"https://abc.supabase.co"', "url")).toBe("https://abc.supabase.co");
+    expect(cleanEnvValue("abc.supabase.co", "url")).toBe("https://abc.supabase.co");
+    expect(cleanEnvValue(" sb_publishable_x ")).toBe("sb_publishable_x");
+    expect(cleanEnvValue("   ")).toBeUndefined();
+  });
+  it("accepts a pasted URL with trailing whitespace end to end", () => {
+    process.env.NEXT_PUBLIC_SUPABASE_URL = "https://abc.supabase.co \n";
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = "a".repeat(40);
+    expect(getPublicEnv().NEXT_PUBLIC_SUPABASE_URL).toBe("https://abc.supabase.co");
+  });
+});
