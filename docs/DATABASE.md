@@ -188,7 +188,7 @@ pnpm db:test            # apply everything to a scratch DB + run SQL tests (need
 pnpm db:types           # regenerate src/types/database.ts from DATABASE_URL (no Docker)
 pnpm supabase:start     # full local Supabase (needs Docker) — applies migrations + seed
 pnpm supabase:reset     # wipe + re-apply
-supabase db push        # apply new migrations to the linked remote project
+pnpm dlx supabase db push        # apply new migrations to the linked remote project
 ```
 
 Seed demo codes (only valid with `ADOPTION_CODE_PEPPER=dev-pepper-change-me`):
