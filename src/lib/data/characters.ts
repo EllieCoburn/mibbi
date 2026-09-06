@@ -25,6 +25,7 @@ export type CharacterSummary = Pick<
   | "thumbnail_url"
   | "rarity_slug"
   | "sort_order"
+  | "curiosity_key"
 > & { rarity: Rarity };
 
 export type CharacterDetail = Tables<"characters"> & {
@@ -35,7 +36,7 @@ export type CharacterDetail = Tables<"characters"> & {
 };
 
 const SUMMARY_SELECT =
-  "id, slug, name, species, personality_key, personality_label, tagline, placeholder_color, placeholder_shape, image_url, thumbnail_url, rarity_slug, sort_order, rarity:rarities(slug, name, color_hex, sort_order, odds_label)";
+  "id, slug, name, species, personality_key, personality_label, tagline, placeholder_color, placeholder_shape, image_url, thumbnail_url, rarity_slug, sort_order, curiosity_key, rarity:rarities(slug, name, color_hex, sort_order, odds_label)";
 
 export async function getActiveCharacters(): Promise<CharacterSummary[]> {
   if (!isSupabaseConfigured()) return [];

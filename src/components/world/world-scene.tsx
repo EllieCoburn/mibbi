@@ -53,7 +53,11 @@ export function WorldScene({ className, variant = "hero" }: { className?: string
             [1470, 260, 5],
           ].map(([x, y, r], i) => (
             <g key={i} className="animate-twinkle" style={{ transformOrigin: `${x}px ${y}px`, animationDelay: `${i * 0.7}s` }}>
-              <path d={`M${x} ${y - r} l${r * 0.35} ${r * 0.65} l${r * 0.65} ${r * 0.35} l-${r * 0.65} ${r * 0.35} l-${r * 0.35} ${r * 0.65} l-${r * 0.35} -${r * 0.65} l-${r * 0.65} -${r * 0.35} l${r * 0.65} -${r * 0.35}z`} fill="#fff" opacity="0.9" />
+              <path
+                d={`M${x} ${y - r} l${r * 0.35} ${r * 0.65} l${r * 0.65} ${r * 0.35} l-${r * 0.65} ${r * 0.35} l-${r * 0.35} ${r * 0.65} l-${r * 0.35} -${r * 0.65} l-${r * 0.65} -${r * 0.35} l${r * 0.65} -${r * 0.35}z`}
+                fill="#fff"
+                opacity="0.9"
+              />
             </g>
           ))
         : null}
@@ -73,13 +77,19 @@ export function WorldScene({ className, variant = "hero" }: { className?: string
 
       {/* Distant mountains */}
       <g id="ws-mountains" opacity="0.9">
-        <path d="M0 520 L140 400 L260 470 L400 360 L560 480 L700 390 L860 500 L1000 380 L1180 480 L1320 400 L1460 470 L1600 410 L1600 620 L0 620z" fill="var(--color-hill-far)" />
+        <path
+          d="M0 520 L140 400 L260 470 L400 360 L560 480 L700 390 L860 500 L1000 380 L1180 480 L1320 400 L1460 470 L1600 410 L1600 620 L0 620z"
+          fill="var(--color-hill-far)"
+        />
         <path d="M400 360 L430 392 L370 392z M1000 380 L1030 412 L970 412z M1320 400 L1350 428 L1290 428z" fill="#fff" opacity="0.7" />
       </g>
 
       {/* Mid hills with a lake */}
       <g id="ws-mid">
-        <path d="M0 600 C 200 520, 380 540, 520 600 C 700 670, 860 540, 1040 590 C 1200 640, 1400 560, 1600 600 L1600 760 L0 760z" fill="var(--color-hill-mid)" />
+        <path
+          d="M0 600 C 200 520, 380 540, 520 600 C 700 670, 860 540, 1040 590 C 1200 640, 1400 560, 1600 600 L1600 760 L0 760z"
+          fill="var(--color-hill-mid)"
+        />
         <ellipse cx="1210" cy="655" rx="170" ry="38" fill="var(--color-water)" />
         <ellipse cx="1210" cy="655" rx="120" ry="20" fill="#fff" opacity="0.25" />
         <Tree x={110} y={585} s={0.8} />
@@ -95,8 +105,21 @@ export function WorldScene({ className, variant = "hero" }: { className?: string
       <g id="ws-near">
         <path d="M0 720 C 240 660, 420 700, 640 690 C 860 680, 1000 620, 1240 660 C 1420 690, 1520 680, 1600 700 L1600 900 L0 900z" fill="url(#ws-hill-near)" />
         <path d="M0 720 C 240 660, 420 700, 640 690 C 860 680, 1000 620, 1240 660 C 1420 690, 1520 680, 1600 700 L1600 900 L0 900z" fill="url(#ws-grain)" />
-        <path d="M760 905 C 700 840, 820 800, 780 760 C 750 730, 640 720, 560 700" stroke="var(--color-path)" strokeWidth="46" strokeLinecap="round" fill="none" />
-        <path d="M760 905 C 700 840, 820 800, 780 760 C 750 730, 640 720, 560 700" stroke="rgb(74 46 34 / 0.08)" strokeWidth="46" strokeLinecap="round" fill="none" strokeDasharray="0 90" />
+        <path
+          d="M760 905 C 700 840, 820 800, 780 760 C 750 730, 640 720, 560 700"
+          stroke="var(--color-path)"
+          strokeWidth="46"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M760 905 C 700 840, 820 800, 780 760 C 750 730, 640 720, 560 700"
+          stroke="rgb(74 46 34 / 0.08)"
+          strokeWidth="46"
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray="0 90"
+        />
         {/* The Bakery */}
         <Bakery x={440} y={700} />
         {/* Cottages */}
@@ -222,7 +245,12 @@ export function Balloon({ className, children }: { className?: string; children?
   return (
     <div className={cn("relative", className ?? "w-24 sm:w-32")} aria-hidden="true">
       <svg viewBox="0 0 120 190" className="w-full">
-        <path d="M60 6 C 20 6, 6 40, 6 70 C 6 100, 34 120, 52 148 L68 148 C 86 120, 114 100, 114 70 C 114 40, 100 6, 60 6z" fill="var(--color-peach)" stroke="var(--color-chocolate)" strokeWidth="4" />
+        <path
+          d="M60 6 C 20 6, 6 40, 6 70 C 6 100, 34 120, 52 148 L68 148 C 86 120, 114 100, 114 70 C 114 40, 100 6, 60 6z"
+          fill="var(--color-peach)"
+          stroke="var(--color-chocolate)"
+          strokeWidth="4"
+        />
         <path d="M60 6 C 44 6, 38 60, 52 148 L68 148 C 82 60, 76 6, 60 6z" fill="var(--color-butter)" stroke="var(--color-chocolate)" strokeWidth="3" />
         <path d="M52 148 L46 168 M68 148 L74 168" stroke="var(--color-chocolate)" strokeWidth="3" />
         <rect x="40" y="166" width="40" height="20" rx="6" fill="var(--color-toast)" stroke="var(--color-chocolate)" strokeWidth="3" />

@@ -13,7 +13,7 @@ export function MeetTheMibbis({ characters, limit, standalone }: { characters: C
           <h2 id="meet-heading" className="text-4xl sm:text-5xl">
             Meet the Mibbis
           </h2>
-          <p className="mt-2 font-display text-lg text-ink-soft">Different feelings. Same big friendship.</p>
+          <p className="font-display text-ink-soft mt-2 text-lg">Different feelings. Same big friendship.</p>
         </div>
         {shown.length === 0 ? (
           <div className="mt-10">

@@ -112,24 +112,52 @@
     }
   }
   @keyframes drift {
-    from { transform: translateX(-12%); }
-    to { transform: translateX(112%); }
+    from {
+      transform: translateX(-12%);
+    }
+    to {
+      transform: translateX(112%);
+    }
   }
   @keyframes bob {
-    0%, 100% { transform: translateY(0) rotate(-1deg); }
-    50% { transform: translateY(-10px) rotate(1deg); }
+    0%,
+    100% {
+      transform: translateY(0) rotate(-1deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
   }
   @keyframes sway {
-    0%, 100% { transform: rotate(-1.5deg); }
-    50% { transform: rotate(1.5deg); }
+    0%,
+    100% {
+      transform: rotate(-1.5deg);
+    }
+    50% {
+      transform: rotate(1.5deg);
+    }
   }
   @keyframes peek {
-    0%, 55%, 100% { transform: translateY(78%); }
-    65%, 90% { transform: translateY(6%); }
+    0%,
+    55%,
+    100% {
+      transform: translateY(78%);
+    }
+    65%,
+    90% {
+      transform: translateY(6%);
+    }
   }
   @keyframes twinkle {
-    0%, 100% { opacity: 0.35; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.1); }
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
   }
   @keyframes blink {
     0%,
@@ -211,9 +239,7 @@
   gap: 0.5rem;
   border-radius: 999px;
   border: 3px solid var(--color-chocolate);
-  background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0) 48%),
-    var(--toy);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0) 48%), var(--toy);
   color: var(--toy-ink);
   font-family: var(--font-display);
   font-weight: 700;
@@ -224,7 +250,10 @@
     0 6px 0 3px var(--color-chocolate),
     0 14px 24px -10px rgb(74 46 34 / 0.45);
   transform: translateY(0);
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    filter 120ms ease;
   user-select: none;
 }
 @utility toy-btn-hover {
@@ -246,7 +275,9 @@
 /* Chunky bordered panel used for cards, tiles and the nav pill */
 @utility chunky {
   border: 3px solid var(--color-chocolate);
-  box-shadow: 0 5px 0 0 var(--color-chocolate), 0 16px 30px -14px rgb(74 46 34 / 0.35);
+  box-shadow:
+    0 5px 0 0 var(--color-chocolate),
+    0 16px 30px -14px rgb(74 46 34 / 0.35);
 }
 @utility chunky-sm {
   border: 2.5px solid var(--color-chocolate);

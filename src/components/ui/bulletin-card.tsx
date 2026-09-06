@@ -17,16 +17,23 @@ export function BulletinCard({ item, reporter, index = 0 }: { item: BulletinItem
   const body = (
     <>
       <div className="flex items-start justify-between gap-3">
-        <span className="sticker px-2 py-0.5 text-[10px] text-chocolate" style={{ backgroundColor: KIND_COLOR[item.kind] }}>
+        <span className="sticker text-chocolate px-2 py-0.5 text-[10px]" style={{ backgroundColor: KIND_COLOR[item.kind] }}>
           {BULLETIN_KIND_LABEL[item.kind]}
         </span>
-        <span className="font-display text-xs font-bold text-ink-mute uppercase">{item.dateLabel}</span>
+        <span className="font-display text-ink-mute text-xs font-bold uppercase">{item.dateLabel}</span>
       </div>
-      <h3 className="mt-3 font-display text-xl leading-tight font-bold text-chocolate">{item.title}</h3>
-      <p className="mt-2 text-sm text-ink-soft">{item.body}</p>
+      <h3 className="font-display text-chocolate mt-3 text-xl leading-tight font-bold">{item.title}</h3>
+      <p className="text-ink-soft mt-2 text-sm">{item.body}</p>
       {reporter ? (
-        <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink-mute">
-          <MibbiAvatar name={reporter.name} color={reporter.placeholder_color} shape={reporter.placeholder_shape} personalityKey={reporter.personality_key} imageUrl={reporter.thumbnail_url} size={28} />
+        <div className="text-ink-mute mt-4 flex items-center gap-2 text-xs font-semibold">
+          <MibbiAvatar
+            name={reporter.name}
+            color={reporter.placeholder_color}
+            shape={reporter.placeholder_shape}
+            personalityKey={reporter.personality_key}
+            imageUrl={reporter.thumbnail_url}
+            size={28}
+          />
           <span>Reported by {reporter.name}</span>
         </div>
       ) : null}

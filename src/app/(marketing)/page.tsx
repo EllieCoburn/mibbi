@@ -1,27 +1,32 @@
-import { HeroWorld } from "@/components/marketing/hero-world";
-import { MeetTheMibbis } from "@/components/marketing/meet-the-mibbis";
-import { ExploreWorld } from "@/components/marketing/explore-world";
-import { GotAMibbi } from "@/components/marketing/got-a-mibbi";
+import { HeroJourney } from "@/components/marketing/hero-journey";
+import { TimelineTeaser } from "@/components/marketing/timeline-teaser";
+import { WhatElseTeaser } from "@/components/marketing/what-else-teaser";
+import { Companions } from "@/components/marketing/companions";
+import { AdventuresTeaser } from "@/components/marketing/adventures-teaser";
+import { MuseumTeaser } from "@/components/marketing/museum-teaser";
 import { WhatIsMibbi } from "@/components/marketing/what-is-mibbi";
 import { Bulletin } from "@/components/marketing/bulletin";
 import { getActiveCharacters } from "@/lib/data/characters";
-import { getActiveLocations } from "@/lib/data/world";
+import { getAdventures } from "@/lib/data/timeline";
 import { getCurrentUser } from "@/lib/data/profile";
 
 /**
- * The front door to Mibbi World. Order: the world itself, the Mibbis,
- * places to go, the physical → digital bridge, one line of explanation,
- * and news from inside the world.
+ * The front door to the story of everything. Order: the journey, the
+ * timeline itself (to scale), the signature question, the companions,
+ * portals (physical Mibbis), the museum, one line of explanation, news.
  */
 export default async function HomePage() {
-  const [characters, locations, user] = await Promise.all([getActiveCharacters(), getActiveLocations(), getCurrentUser()]);
+  const [characters, adventures, user] = await Promise.all([getActiveCharacters(), getAdventures(), getCurrentUser()]);
+  const signedIn = user !== null;
 
   return (
     <>
-      <HeroWorld characters={characters} signedIn={user !== null} />
-      <MeetTheMibbis characters={characters} limit={6} />
-      <ExploreWorld locations={locations} />
-      <GotAMibbi character={characters[0]} />
+      <HeroJourney characters={characters} signedIn={signedIn} />
+      <TimelineTeaser />
+      <WhatElseTeaser />
+      <Companions characters={characters} />
+      <AdventuresTeaser adventures={adventures} characters={characters} />
+      <MuseumTeaser signedIn={signedIn} />
       <WhatIsMibbi characters={characters} />
       <Bulletin characters={characters} />
     </>

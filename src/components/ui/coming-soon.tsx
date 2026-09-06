@@ -14,8 +14,8 @@ export function ComingSoon({ title, phase, blurb }: { title: string; phase: stri
         <h1 className="mt-2 text-4xl">{title}</h1>
         <p className="text-ink-soft mt-3">{blurb}</p>
         <div className="mt-6">
-          <LinkButton href={routes.app} variant="secondary">
-            Back home
+          <LinkButton href={routes.timeline} variant="secondary">
+            Back to the timeline
           </LinkButton>
         </div>
       </div>

@@ -16,21 +16,24 @@ export const routes = {
   checkEmail: "/check-email",
   authCallback: "/auth/callback",
   authConfirm: "/auth/confirm",
+  // The product
+  timeline: "/timeline",
+  atlas: "/atlas",
+  museum: "/museum",
+  adventures: "/adventures",
+  adventure: (slug: string) => `/adventures/${slug}`,
+  entry: (slug: string) => `/timeline?focus=${slug}`,
   // Signed-in app
-  app: "/home",
+  app: "/timeline",
   adopt: "/adopt",
   collection: "/collection",
-  world: "/world",
-  games: "/games",
-  quests: "/quests",
-  shop: "/shop",
-  inventory: "/inventory",
+  world: "/atlas",
   profile: "/profile",
   admin: "/admin",
 } as const;
 
 /** Routes that require a signed-in user. Prefix match. */
-const PROTECTED_PREFIXES = ["/home", "/adopt", "/collection", "/world", "/games", "/quests", "/shop", "/inventory", "/profile", "/admin"];
+const PROTECTED_PREFIXES = ["/home", "/adopt", "/collection", "/museum", "/profile", "/admin"];
 
 /** Routes a signed-in user should not see (they bounce to /home). */
 const AUTH_ROUTES = new Set<string>(["/login", "/signup"]);

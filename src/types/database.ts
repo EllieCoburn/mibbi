@@ -245,6 +245,68 @@ export type Database = {
           }
         ]
       }
+      adventures: {
+        Row: {
+          id: string
+          slug: string
+          name: string
+          tagline: string | null
+          description: string | null
+          curiosity_key: string | null
+          companion_character_slug: string | null
+          unlock_character_slug: string | null
+          start_entry_slug: string | null
+          steps: Json
+          age_band: number
+          sort_order: number
+          status: Database["public"]["Enums"]["content_status"]
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          name: string
+          tagline?: string | null
+          description?: string | null
+          curiosity_key?: string | null
+          companion_character_slug?: string | null
+          unlock_character_slug?: string | null
+          start_entry_slug?: string | null
+          steps?: Json
+          age_band?: number
+          sort_order?: number
+          status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          name?: string
+          tagline?: string | null
+          description?: string | null
+          curiosity_key?: string | null
+          companion_character_slug?: string | null
+          unlock_character_slug?: string | null
+          start_entry_slug?: string | null
+          steps?: Json
+          age_band?: number
+          sort_order?: number
+          status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "adventures_start_entry_slug_fkey"
+            columns: ["start_entry_slug"]
+            isOneToOne: false
+            referencedRelation: "timeline_entries"
+            referencedColumns: ["slug"]
+          }
+        ]
+      }
       audit_logs: {
         Row: {
           id: number
@@ -374,6 +436,7 @@ export type Database = {
           release_date: string | null
           created_at: string
           updated_at: string
+          curiosity_key: string | null
         }
         Insert: {
           id?: string
@@ -400,6 +463,7 @@ export type Database = {
           release_date?: string | null
           created_at?: string
           updated_at?: string
+          curiosity_key?: string | null
         }
         Update: {
           id?: string
@@ -426,6 +490,7 @@ export type Database = {
           release_date?: string | null
           created_at?: string
           updated_at?: string
+          curiosity_key?: string | null
         }
         Relationships: [
           {
@@ -488,6 +553,40 @@ export type Database = {
             columns: ["sku_id"]
             isOneToOne: false
             referencedRelation: "product_skus"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      concept_signals: {
+        Row: {
+          id: number
+          user_id: string
+          concept: string
+          correct: boolean
+          context: Json
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          concept: string
+          correct: boolean
+          context?: Json
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          concept?: string
+          correct?: boolean
+          context?: Json
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "concept_signals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
@@ -608,6 +707,42 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "items"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      entry_relations: {
+        Row: {
+          from_slug: string
+          to_slug: string
+          relation: string
+          note: string | null
+        }
+        Insert: {
+          from_slug: string
+          to_slug: string
+          relation: string
+          note?: string | null
+        }
+        Update: {
+          from_slug?: string
+          to_slug?: string
+          relation?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entry_relations_from_slug_fkey"
+            columns: ["from_slug"]
+            isOneToOne: false
+            referencedRelation: "timeline_entries"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "entry_relations_to_slug_fkey"
+            columns: ["to_slug"]
+            isOneToOne: false
+            referencedRelation: "timeline_entries"
+            referencedColumns: ["slug"]
           }
         ]
       }
@@ -1240,6 +1375,33 @@ export type Database = {
         }
         Relationships: []
       }
+      regions: {
+        Row: {
+          slug: string
+          name: string
+          lat: number
+          lng: number
+          sort_order: number
+          color_hex: string
+        }
+        Insert: {
+          slug: string
+          name: string
+          lat?: number
+          lng?: number
+          sort_order?: number
+          color_hex?: string
+        }
+        Update: {
+          slug?: string
+          name?: string
+          lat?: number
+          lng?: number
+          sort_order?: number
+          color_hex?: string
+        }
+        Relationships: []
+      }
       room_items: {
         Row: {
           id: string
@@ -1454,6 +1616,114 @@ export type Database = {
           }
         ]
       }
+      timeline_entries: {
+        Row: {
+          id: string
+          slug: string
+          kind: Database["public"]["Enums"]["timeline_kind"]
+          name: string
+          tagline: string | null
+          start_year: number
+          end_year: number | null
+          is_ongoing: boolean
+          precision: string
+          parent_slug: string | null
+          level: number
+          region_slug: string | null
+          lat: number | null
+          lng: number | null
+          importance: number
+          min_span_years: number | null
+          age_band: number
+          curiosity_key: string | null
+          what: string | null
+          where_text: string | null
+          why: string | null
+          color_hex: string | null
+          icon_key: string
+          image_url: string | null
+          status: Database["public"]["Enums"]["content_status"]
+          sort_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          kind: Database["public"]["Enums"]["timeline_kind"]
+          name: string
+          tagline?: string | null
+          start_year: number
+          end_year?: number | null
+          is_ongoing?: boolean
+          precision?: string
+          parent_slug?: string | null
+          level?: number
+          region_slug?: string | null
+          lat?: number | null
+          lng?: number | null
+          importance?: number
+          min_span_years?: number | null
+          age_band?: number
+          curiosity_key?: string | null
+          what?: string | null
+          where_text?: string | null
+          why?: string | null
+          color_hex?: string | null
+          icon_key?: string
+          image_url?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          kind?: Database["public"]["Enums"]["timeline_kind"]
+          name?: string
+          tagline?: string | null
+          start_year?: number
+          end_year?: number | null
+          is_ongoing?: boolean
+          precision?: string
+          parent_slug?: string | null
+          level?: number
+          region_slug?: string | null
+          lat?: number | null
+          lng?: number | null
+          importance?: number
+          min_span_years?: number | null
+          age_band?: number
+          curiosity_key?: string | null
+          what?: string | null
+          where_text?: string | null
+          why?: string | null
+          color_hex?: string | null
+          icon_key?: string
+          image_url?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          sort_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timeline_entries_parent_slug_fkey"
+            columns: ["parent_slug"]
+            isOneToOne: false
+            referencedRelation: "timeline_entries"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "timeline_entries_region_slug_fkey"
+            columns: ["region_slug"]
+            isOneToOne: false
+            referencedRelation: "regions"
+            referencedColumns: ["slug"]
+          }
+        ]
+      }
       user_achievements: {
         Row: {
           user_id: string
@@ -1480,6 +1750,45 @@ export type Database = {
           },
           {
             foreignKeyName: "user_achievements_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_adventure_progress: {
+        Row: {
+          user_id: string
+          adventure_id: string
+          step_index: number
+          completed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          adventure_id: string
+          step_index?: number
+          completed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          adventure_id?: string
+          step_index?: number
+          completed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_adventure_progress_adventure_id_fkey"
+            columns: ["adventure_id"]
+            isOneToOne: false
+            referencedRelation: "adventures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_adventure_progress_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -1576,6 +1885,42 @@ export type Database = {
           },
           {
             foreignKeyName: "user_daily_claims_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_discoveries: {
+        Row: {
+          user_id: string
+          entry_id: string
+          discovered_via: string
+          discovered_at: string
+        }
+        Insert: {
+          user_id: string
+          entry_id: string
+          discovered_via?: string
+          discovered_at?: string
+        }
+        Update: {
+          user_id?: string
+          entry_id?: string
+          discovered_via?: string
+          discovered_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_discoveries_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "timeline_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_discoveries_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -1822,6 +2167,13 @@ export type Database = {
         }
         Returns: number
       }
+      entries_around_year: {
+        Args: {
+          p_year: number
+          p_tolerance?: number
+        }
+        Returns: unknown[]
+      }
       grant_item: {
         Args: {
           p_user_id: string
@@ -1875,6 +2227,7 @@ export type Database = {
       location_link_type: "none" | "game" | "shop" | "quest" | "character" | "event" | "page"
       repeat_interval: "none" | "daily" | "weekly"
       requirement_type: "adopt_count" | "adopt_character" | "adopt_rarity" | "series_owned_count" | "series_complete" | "play_game_count" | "game_score" | "earn_coins" | "spend_coins" | "room_items_placed" | "login_days" | "login_streak" | "visit_locations" | "visit_location" | "feed_mibbi" | "own_items" | "custom"
+      timeline_kind: "era" | "event" | "organism" | "civilization" | "person" | "invention" | "artwork" | "discovery" | "place" | "extinction"
       user_quest_status: "active" | "completed" | "claimed"
     }
     CompositeTypes: {
