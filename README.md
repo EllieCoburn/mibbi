@@ -29,9 +29,9 @@ Fill `.env.local` with your Supabase URL and anon key (Project Settings → API)
 **Option A — hosted Supabase project**
 
 ```bash
-pnpm exec supabase login
-pnpm exec supabase link --project-ref <your-project-ref>
-pnpm exec supabase db push          # applies supabase/migrations
+pnpm dlx supabase login
+pnpm dlx supabase link --project-ref <your-project-ref>
+pnpm dlx supabase db push          # applies supabase/migrations
 psql "$SUPABASE_DB_URL" -f supabase/seed.sql   # demo content (or paste into the SQL editor)
 ```
 

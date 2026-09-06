@@ -8,6 +8,9 @@ import { routes } from "@/lib/routes";
  * Signed-in app shell. The proxy already bounces anonymous visitors, but we
  * check again here: layouts must never trust the proxy alone.
  */
+// Every signed-in route depends on the session; never prerender.
+export const dynamic = "force-dynamic";
+
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
   if (!user) redirect(routes.login);

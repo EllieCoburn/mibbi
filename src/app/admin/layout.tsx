@@ -9,6 +9,8 @@ import { routes } from "@/lib/routes";
  * profile the user can edit. Non-admins are sent to the app, not shown a 403,
  * so the existence of /admin isn't advertised.
  */
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const user = await getCurrentUser();
   if (!user) redirect(`${routes.login}?next=${routes.admin}`);

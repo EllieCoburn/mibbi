@@ -13,8 +13,10 @@ import type { Database } from "@/types/database";
 import { getPublicEnv } from "@/lib/env";
 
 export async function createClient() {
-  const env = getPublicEnv();
+  // Read cookies BEFORE touching env: this marks the route as dynamic so
+  // Next never tries to prerender it at build time (where env may be absent).
   const cookieStore = await cookies();
+  const env = getPublicEnv();
 
   return createServerClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {
