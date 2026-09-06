@@ -31,6 +31,27 @@ function formatIssues(issues: z.ZodIssue[]): string {
   return issues.map((i) => `  - ${i.path.join(".")}: ${i.message}`).join("\n");
 }
 
+/**
+ * Cleans a value pasted into a hosting dashboard: trims whitespace and line
+ * breaks, strips surrounding quotes, and adds https:// to a bare hostname.
+ * Founders paste these by hand; the site should not break over a stray space.
+ */
+export function cleanEnvValue(value: string | undefined, kind: "url" | "text" = "text"): string | undefined {
+  if (value === undefined) return undefined;
+  let v = value.trim().replace(/^["']+|["']+$/g, "").trim();
+  if (v === "") return undefined;
+  if (kind === "url" && !/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = `https://${v}`;
+  return v;
+}
+
+function readPublicEnv() {
+  return {
+    NEXT_PUBLIC_SUPABASE_URL: cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL, "url"),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+    NEXT_PUBLIC_SITE_URL: cleanEnvValue(process.env.NEXT_PUBLIC_SITE_URL, "url"),
+  };
+}
+
 let cachedPublic: PublicEnv | undefined;
 let cachedServer: ServerEnv | undefined;
 
@@ -41,11 +62,7 @@ let cachedServer: ServerEnv | undefined;
  */
 export function getPublicEnv(): PublicEnv {
   if (cachedPublic) return cachedPublic;
-  const parsed = publicSchema.safeParse({
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-  });
+  const parsed = publicSchema.safeParse(readPublicEnv());
   if (!parsed.success) {
     throw new Error(
       `Missing or invalid public environment variables:\n${formatIssues(parsed.error.issues)}\n` +
@@ -63,8 +80,8 @@ export function getServerEnv(): ServerEnv {
     throw new Error("getServerEnv() was called in the browser. This is a bug.");
   }
   const parsed = serverSchema.safeParse({
-    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
-    ADOPTION_CODE_PEPPER: process.env.ADOPTION_CODE_PEPPER,
+    SUPABASE_SERVICE_ROLE_KEY: cleanEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    ADOPTION_CODE_PEPPER: cleanEnvValue(process.env.ADOPTION_CODE_PEPPER),
   });
   if (!parsed.success) {
     throw new Error(`Missing or invalid server environment variables:\n${formatIssues(parsed.error.issues)}`);
@@ -93,11 +110,7 @@ export function isSupabaseConfigured(): boolean {
  * notice. Never includes values, only variable names and a short reason.
  */
 export function publicEnvProblems(): Array<{ name: string; reason: string }> {
-  const parsed = publicSchema.safeParse({
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-  });
+  const parsed = publicSchema.safeParse(readPublicEnv());
   if (parsed.success) return [];
   return parsed.error.issues.map((i) => {
     const name = String(i.path[0] ?? "");
