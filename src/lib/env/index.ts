@@ -85,9 +85,23 @@ export function resetEnvCacheForTests(): void {
  * deployment shows a clear setup notice instead of crashing.
  */
 export function isSupabaseConfigured(): boolean {
-  return publicSchema.safeParse({
+  return publicEnvProblems().length === 0;
+}
+
+/**
+ * Names of public variables that are missing or invalid, for the setup
+ * notice. Never includes values, only variable names and a short reason.
+ */
+export function publicEnvProblems(): Array<{ name: string; reason: string }> {
+  const parsed = publicSchema.safeParse({
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-  }).success;
+  });
+  if (parsed.success) return [];
+  return parsed.error.issues.map((i) => {
+    const name = String(i.path[0] ?? "");
+    const value = process.env[name as keyof NodeJS.ProcessEnv];
+    return { name, reason: value === undefined || value === "" ? "missing" : "invalid" };
+  });
 }
